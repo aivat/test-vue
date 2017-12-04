@@ -1,22 +1,9 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
-  </div>
+    <div class="wrapper">
+            <app-header></app-header>
+            <app-content></app-content>
+            <app-footer></app-footer>
+    </div>
 </template>
 
 <script>
@@ -31,30 +18,44 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+        font-size: 14px;
+    }
 
-h1, h2 {
-  font-weight: normal;
-}
+    html, body {
+        height: 100%;
+    }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
+    /*#app {
+      font-family: 'Avenir', Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }*/
 
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
+    .wrapper {
+       display: flex;
+        flex-direction: column;
+        height: 100%;
+        /*border: 2px dotted #0dd03a;*/
+        align-items: center;
+    }
 
-a {
-  color: #42b983;
-}
+    .container {
+        display: flex;
+        flex: 1 0 auto;
+        align-items: flex-start;
+        /* border: 1px solid #070606;*/
+        width: 100%;
+    }
+    
+    @media  all and (min-width: 1060px) {
+        .container {
+            /*display: block;*/
+            width: 1060px; 
+            flex: 0 0 auto;
+        }
+    }
 </style>
