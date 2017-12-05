@@ -1,8 +1,9 @@
 <template>
   <div class="content">
-      <div class="container">    
+      <div class="container">
         <div class="book-list">
-            1
+            <book v-if="state == 'book'" ></book>
+            <users v-if="state == 'users'"></users>
         </div>
       </div>
   </div>
@@ -12,7 +13,7 @@
 export default {
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      state: 'book'
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper">
-            <app-header></app-header>
-            <app-content></app-content>
+            <app-header type="book"></app-header>
+            <router-view></router-view>
             <app-footer></app-footer>
     </div>
 </template>
@@ -58,4 +58,53 @@ export default {
             flex: 0 0 auto;
         }
     }
+        .content {
+        display: flex;
+        flex: 1 0 auto;
+        background-color:  rgba(207, 225, 244, 0.5);
+        justify-content: center;
+        width: 100%;
+        /*border: 1px solid #0dd03a;*/
+    }
+    .book-list {
+        display: flex;
+        flex-direction:column;
+        flex: 1;
+        /*flex: 1;*/
+        margin-top: 15px;
+        padding: 0 20px;
+        background-color: #fff;
+        /*border-bottom: 1px solid #ccc;*/
+        /* border: 1px solid #E55FFA;*/
+        margin-bottom: 65px;
+        border: 1px solid #c9d0d6;
+    }
+        .list-item {
+        margin-top: 10px;
+        display: flex;
+        padding: 12px 0;
+        /* border-bottom: 1px solid #ccc; */  
+        flex-wrap: wrap;
+        flex-shrink: 0;
+        /*border: 1px solid black;*/
+    }
+
+    .list-item:last-child {
+        border-bottom: none;
+        margin-bottom: 10px;
+    }
+
+    .list-item:hover {
+        background-color: rgba(0,0,0,0.1);
+        border-radius: 3px;
+    }
+    
+    .item-index {
+    color: #999;
+    padding: 10px;
+    padding-top: 0;
+    /*padding-left: 0;*/
+    text-align: center;
+    }
+    
 </style>

@@ -3,10 +3,12 @@
         <div class="container">
             <div class="head-cont">
                 <div class="header-left">
-                    <a href="#">Книги</a> 
+                    <a href="#">{{ type }}</a> 
                 </div>
                 <div class="header-right">
                     <a href="#" class="btn-1">Добавить</a>
+                    <router-link class="btn-1" tag ="a" to="/addbook"  v-if="state == 'book'">Add Book</router-link>
+                    <router-link class="btn-1" tag ="a" to="/adduser" v-else-if="state == 'user'">Add User</router-link>     
                 </div>
             </div>
         </div>
@@ -17,9 +19,19 @@
 export default {
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      state: 'book'
     }
-  }
+  },
+    props: ['type'],
+    mounted:
+        function () {
+          this.$root.$on('onBook',  function (id) {
+              console.log('значение: ' + this.state);
+               console.log('123');
+          })
+        
+    },
+    
 }
 </script>
 

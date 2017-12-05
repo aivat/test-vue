@@ -3,10 +3,10 @@
       <div class="container">
             <div class="foot-cont">
                 <div class="footer-left">
-                    <a href="#" class="btn-1">Книги</a> 
+                    <router-link class="btn-1" tag ="a" to="/">Book</router-link>
                 </div>
                 <div class="footer-right">
-                    <a href="#" class="btn-1">Пользователи</a>
+                    <router-link class="btn-1" tag ="a" to="/users" @click="onStart">Users</router-link>
                 </div>
             </div>
       </div>
@@ -19,7 +19,13 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
-  }
+  },
+ methods: {
+     onStart(){
+        this.$root.$emit('onBook', 1)
+          console.log('123');
+     }
+ }
 }
 </script>
 
