@@ -1,8 +1,8 @@
 <template>
     <div class="wrapper">
-            <app-header type="book"></app-header>
+            <app-header :type="page"></app-header>
             <router-view></router-view>
-            <app-footer></app-footer>
+            <app-footer @onPageTitle="onUsers"></app-footer>
     </div>
 </template>
 
@@ -11,9 +11,31 @@ export default {
   name: 'app',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+        state: '1',
+        page: 'Books'
     }
-  }
+  },
+ methods: {
+     onUsersOrBook(key) {
+         console.log('123');
+         if (key=='users') {
+             this.page = 'user';
+         } else 
+             if (key='book') {
+                 this.page = 'book';
+             }
+     },
+     onUsers: function (title) { 
+         if (title=='users') {
+             console.log(title);
+             this.page = 'Users';
+         }
+         if (title=='books') {
+             console.log(title);
+             this.page = 'Books';
+         }     
+     }
+ }
 }
 </script>
 

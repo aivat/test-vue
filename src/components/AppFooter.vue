@@ -3,11 +3,13 @@
       <div class="container">
             <div class="foot-cont">
                 <div class="footer-left">
-                    <router-link class="btn-1" tag ="a" to="/">Book</router-link>
+                    <router-link class="btn-1" tag ="a" to="/" @click.native="$emit('onPageTitle','books')">Books</router-link>
                 </div>
                 <div class="footer-right">
-                    <router-link class="btn-1" tag ="a" to="/users" @click="onStart">Users</router-link>
+                    <router-link class="btn-1" tag ="a" to="/users"  @click.native="$emit('onPageTitle', 'users')">Users</router-link>
+                   
                 </div>
+                
             </div>
       </div>
     </footer>
@@ -20,12 +22,10 @@ export default {
       msg: 'Welcome to Your Vue.js App'
     }
   },
- methods: {
-     onStart(){
-        this.$root.$emit('onBook', 1)
-          console.log('123');
-     }
- }
+mounted: function () {
+       this.$root.$emit('onUsers');
+        console.log('123');
+    }
 }
 </script>
 
