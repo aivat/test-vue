@@ -7,9 +7,10 @@
                 </div>
                 <div class="header-right">
                     <a href="#" class="btn-1">Добавить</a>
-                    <router-link class="btn-1" tag ="a" to="/addbook"  v-if="state == 'book'">Add Book</router-link>
-                    <router-link class="btn-1" tag ="a" to="/adduser" v-else-if="state == 'user'">Add User</router-link>     
+                    <router-link class="btn-1" tag ="a" to="/addbook"  v-if="type == 'book'" @click.native="$emit('onPageTitle', 'addBook')">Add Book</router-link>
+                    <router-link class="btn-1" tag ="a" to="/adduser" v-else-if="type == 'user'" @click.native="$emit('onPageTitle', 'addUser')">Add User</router-link>     
                 </div>
+                <div>{{ pageQwerty }}</div>
             </div>
         </div>
     </header>
@@ -17,21 +18,27 @@
 
 <script>
 export default {
-  data () {
-    return {
-      state: 'book'
-    }
-  },
-    props: ['type'],
-    mounted:
-        function () {
-          this.$root.$on('onBook',  function (id) {
-              console.log('значение: ' + this.state);
-               console.log('123');
-          })
-        
+    data () {
+        return {
+            state: 'book'
+        }
     },
-    
+    props: ['type'],
+    computed: {
+       pageQwerty: function () {
+            return this.type;
+           console.log(this.pageQwerty);
+            console.log('123');
+        }
+    },
+    mounted: function () {  
+        this.$root.$emit('onPageTitle', 'addBook');
+    },
+     methods: {
+         onAsd(){
+             this.state = 'user';
+         }
+     }
 }
 </script>
 

@@ -1,8 +1,8 @@
 <template>
     <div class="wrapper">
-            <app-header :type="page"></app-header>
+            <app-header :type="page" @onPageTitle="onPageTitleSwitch"></app-header>
             <router-view></router-view>
-            <app-footer @onPageTitle="onUsers"></app-footer>
+            <app-footer @onPageTitle="onPageTitleSwitch"></app-footer>
     </div>
 </template>
 
@@ -25,7 +25,7 @@ export default {
                  this.page = 'book';
              }
      },
-     onUsers: function (title) { 
+     onPageTitleSwitch: function (title) { // переключаем в хедере слева заголовок, типа "Книга"
          if (title=='users') {
              console.log(title);
              this.page = 'Users';
@@ -33,9 +33,23 @@ export default {
          if (title=='books') {
              console.log(title);
              this.page = 'Books';
-         }     
+         }
+         if (title=='addBook') {
+             console.log(title);
+             this.page = 'Add Book';
+         } 
+         if (title=='addUser') {
+             console.log(title);
+             this.page = 'Add Book';
+         } 
      }
- }
+ },
+mounted: function () { 
+    
+        this.$root.$on('onPageTitle', function(title){
+            alert(1);
+        });
+    }
 }
 </script>
 
