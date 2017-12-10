@@ -1,18 +1,20 @@
 <template>
   <div class="content">
-      <div class="container">
-          
+      <div class="container">   
         <div class="book-list">
             <form action="/echo" method="post">
                 <fieldset>
-                    <legend>Редактирование книги</legend>
-                    <label for="name-book">Название книги</label>
-                    <input type="text" id="name-book" name="name-book" placeholder="Название книги" required>
-                    <label for="author">Автор</label>
-                    <input type="text" id="author" name="author" placeholder="Автор" required>
-                    <label for="annotation">Аннотация</label>
-                    
-                    <textarea id="annotation" name="annotation" rows="8" placeholder="Краткое содержание"></textarea>
+                    <legend>Редактирование автора</legend>
+                    <label for="surname">Фамилия</label>
+                    <input type="text" id="surname" name="surname" placeholder="Иванов" required>
+                    <label for="name">Имя</label>
+                    <input type="text" id="name" name="name" placeholder="Иван" required>
+                    <label for="patronymic">Отчество</label>
+                    <input type="text" id="patronymic" name="patronymic" placeholder="Иванович" required>
+                    <label for="dateOfBirth">Дата рождения</label>
+                    <input type="date" id="dateOfBirth" name="dateOfBirth" pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}" placeholder="01.01.1970">
+                    <label for="tel">Номер телефона</label>
+                    <input type="tel" id="tel" name="tel" placeholder="Формат номера XXXXXXXXXX" required>
                 </fieldset>
                 <div class="buttons">
                     <input type="submit" value="Сохранить" class="btn-1">
@@ -35,7 +37,7 @@ export default {
 </script>
 
 <style>
-	.book-list {
+		.book-list {
     display: flex;
     flex-direction:column;
     flex: 1;
@@ -80,5 +82,4 @@ export default {
 		height: auto;
 		resize: none;
 	}
-	
 </style>

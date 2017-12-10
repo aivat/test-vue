@@ -7,12 +7,14 @@
 </template>
 
 <script>
+	
 export default {
   name: 'app',
   data () {
     return {
         state: '1',
         page: 'Books'
+		
     }
   },
  methods: {
@@ -47,7 +49,7 @@ export default {
 mounted: function () { 
     
         this.$root.$on('onPageTitle', function(title){
-            alert(1);
+           console.log('456789');
         });
     }
 }

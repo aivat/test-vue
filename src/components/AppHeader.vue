@@ -3,24 +3,28 @@
         <div class="container">
             <div class="head-cont">
                 <div class="header-left">
-                    <a href="#">{{ type }}</a> 
+					<router-link tag ="a" to="/" v-show="currentRoute === '/'">Книги</router-link>
+					<router-link tag ="a" to="/addbook" v-show="currentRoute === '/addbook'">Добавить книгу</router-link>
+					<router-link tag ="a" to="/users" v-show="currentRoute === '/users'">Пользователи</router-link>
+					<router-link tag ="a" to="/adduser" v-show="currentRoute === '/adduser'">Добавить пользователя</router-link>
                 </div>
                 <div class="header-right">
-                    <a href="#" class="btn-1">Добавить</a>
-                    <router-link class="btn-1" tag ="a" to="/addbook"  v-if="type == 'book'" @click.native="$emit('onPageTitle', 'addBook')">Add Book</router-link>
-                    <router-link class="btn-1" tag ="a" to="/adduser" v-else-if="type == 'user'" @click.native="$emit('onPageTitle', 'addUser')">Add User</router-link>     
+                    <router-link class="btn-1" tag ="a" to="/addbook" v-show="currentRoute === '/'">Add Book</router-link>
+                    <router-link class="btn-1" tag ="a" to="/adduser" v-show="currentRoute === '/users'">Add User</router-link>     
                 </div>
-                <div>{{ pageQwerty }}</div>
             </div>
         </div>
     </header>
 </template>
 
 <script>
+import { router } from '../main.js'
 export default {
     data () {
         return {
-            state: 'book'
+            state: 'book',
+			currentRoute: router.currentRoute.path
+			
         }
     },
     props: ['type'],
@@ -38,7 +42,14 @@ export default {
          onAsd(){
              this.state = 'user';
          }
-     }
+     },
+	watch: {
+		'$route' (to, from) {
+			console.log('to.path=', to.path);
+			console.log('from.path=', from.path);
+			this.currentRoute = to.path;
+		}
+	}
 }
 </script>
 
