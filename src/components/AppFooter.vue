@@ -31,8 +31,8 @@ mounted: function () {
 
 <style>
     .footer {
-        border-top: 1px solid #E5EFFA;
-        background-color: #F8C880;
+        border-top: 1px solid rgba(0, 0, 0, 0.25);
+        background-color: rgb(255,255,255);
         display: flex;
         justify-content: center;
         flex: 0 0 auto;

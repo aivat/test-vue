@@ -7,6 +7,9 @@
 					<router-link tag ="a" to="/addbook" v-show="currentRoute === '/addbook'">Добавить книгу</router-link>
 					<router-link tag ="a" to="/users" v-show="currentRoute === '/users'">Пользователи</router-link>
 					<router-link tag ="a" to="/adduser" v-show="currentRoute === '/adduser'">Добавить пользователя</router-link>
+                    <router-link tag ="a" v-bind:to="currentRoute" v-show="titlePage == 'editUserTitle'">Редактирование пользователя</router-link>
+                    <router-link tag ="a" v-bind:to="currentRoute" v-show="titlePage == 'editBookTitle'">Редактирование книги</router-link>
+                    <router-link tag ="a" v-bind:to="currentRoute" v-show="titlePage == 'editAuthorTitle'">Редактирование автора</router-link>
                 </div>
                 <div class="header-right">
                     <router-link class="btn-1" tag ="a" to="/addbook" v-show="currentRoute === '/'">Add Book</router-link>
@@ -22,30 +25,38 @@ import { router } from '../main.js'
 export default {
     data () {
         return {
-            state: 'book',
-			currentRoute: router.currentRoute.path
-			
+            title: 'book',
+			currentRoute: router.currentRoute.path	
         }
     },
     props: ['type'],
     computed: {
-       pageQwerty: function () {
-            return this.type;
-           console.log(this.pageQwerty);
-            console.log('123');
+        titlePage: function () {
+            let page; 
+            let regexpUser = /user\/\d{1,}/g;
+            let regexpBook = /book\/\d{1,}/g;
+            let regexpAuthor = /author\/\d{1,}/g;
+            if (this.currentRoute.match(regexpUser) != null) {
+                console.log('match=', this.currentRoute.match(regexpUser));
+                page = 'editUserTitle';
+            }
+            if (this.currentRoute.match(regexpBook) != null) {
+                console.log('match=', this.currentRoute.match(regexpBook));
+                page = 'editBookTitle';
+            }
+            if (this.currentRoute.match(regexpAuthor) != null) {
+                console.log('match=', this.currentRoute.match(regexpAuthor));
+                page = 'editAuthorTitle';
+            }
+            return page;
         }
     },
     mounted: function () {  
         this.$root.$emit('onPageTitle', 'addBook');
     },
-     methods: {
-         onAsd(){
-             this.state = 'user';
-         }
-     },
 	watch: {
 		'$route' (to, from) {
-			console.log('to.path=', to.path);
+            console.log('to.path=', to.path);
 			console.log('from.path=', from.path);
 			this.currentRoute = to.path;
 		}
@@ -85,6 +96,7 @@ export default {
     .header-left:hover {
         border-bottom-color: rgb(64,167,227);
     }
+    
     .btn-1 {
         color: white;
         text-decoration: none;
@@ -94,11 +106,16 @@ export default {
         border-color: #ccc;
         padding: 6px 12px;
         transition: 0.2s;
-        background: #43709F;   
+        background: #40A6E3;
+        font-weight: 700; 
     }
 
     .btn-1:hover {
-       background: #5B88B8;
+        background: #6FC1F1;    
+    }
+
+    .btn-1:active {
+        background: #4F88AA;  
     }
     
     

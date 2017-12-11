@@ -117,7 +117,8 @@ mounted: function () {
         margin-bottom: 65px;
         border: 1px solid #c9d0d6;
     }
-        .list-item {
+    
+    .list-item {
         margin-top: 10px;
         display: flex;
         padding: 12px 0;
