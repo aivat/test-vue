@@ -56,7 +56,7 @@
                 </div>
             </div>
         </div>  
-        <div class="book-list del-bottom">
+        <div class="book-list del-margin-book">
             <div class="list-item list-item-book-delet">
                 <div class="list-item-book">
                     <div class="item-index">1</div>
@@ -106,7 +106,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .container-give-book {
     width: 100%;
 }
@@ -131,8 +131,12 @@ export default {
     
     .del-bottom {
     margin-bottom: 0;
-    margin-top: 0;
+   /* margin-top: 0;*/
 }
+    .del-margin-book {
+          margin-bottom: 0;
+   margin-top: 0;  
+    }
     
     .title-give {
     padding: 15px 20px;
@@ -178,6 +182,7 @@ export default {
 	margin: 0 0 1px;
     outline-style: none;
     border: none;
+    width: 100%;
 }
     .selector-dropdown {
 	width: 20px;
@@ -199,6 +204,15 @@ export default {
     /*width:198px;*/
     border-radius: 0 0 1px 1px;
 }
+    .result-list ul li {
+    padding: 6px 0 8px 19px;
+    cursor: pointer;
+}
+
+.result-list ul li:hover {
+    background-color: #e7edf2;
+}
+
     .result-list-scrollable {
     overflow-y: scroll;
 }
@@ -243,6 +257,17 @@ export default {
     text-decoration: none;
     
 }
+    
+    .title-give p a {
+        color: #333;
+        font-weight: 700;
+        text-decoration: none;    
+    } 
+    
+    .title-give p a:hover {
+		color: rgb(64,167,227);
+		text-decoration: underline; 
+    } 
     .author a {
     padding-bottom: 1px;
     border-bottom: 1px solid #d8d8d8;
@@ -253,5 +278,46 @@ export default {
 }
     .book-delet {
     padding-right: 10px;
+}
+    button {
+   color: white;
+    background-color: #129753;
+    border-radius: 4px;
+    padding: 6px 12px;
+     background: #129753;
+    border-color: #ccc;
+    border: 1px solid #129753;
+    min-width: 115px;
+	cursor: pointer;
+}
+
+button:hover {
+    background: #4BAE7C;
+	color:  #129753;
+	background: rgb(255,255,255);
+    outline: none;
+}
+
+button:active {
+	color: #129753;
+    outline: none;
+    background:rgba(18,151,83,0.2);
+    
+}
+    .btn-2 {
+    background: #FFA83D;
+        border: 1px solid #FFA83D;
+}
+
+.btn-2:hover {
+   background: #FFCF94;
+    color: #FFA83D;
+    background: rgb(255,255,255);
+}
+
+.btn-2:active {
+    background: #A66414;
+   background: rgba(255, 168, 61, 0.2);
+    color: #FFA83D;
 }
 </style>

@@ -120,9 +120,10 @@ mounted: function () {
     
     .list-item {
         margin-top: 10px;
+        
         display: flex;
         padding: 12px 0;
-        /* border-bottom: 1px solid #ccc; */  
+       border-bottom: 1px solid rgba(0,0,0,0.1); 
         flex-wrap: wrap;
         flex-shrink: 0;
         /*border: 1px solid black;*/
@@ -136,6 +137,7 @@ mounted: function () {
     .list-item:hover {
         background-color: rgba(0,0,0,0.1);
         border-radius: 3px;
+        border-bottom: 1px solid rgba(0,0,0,0); 
     }
     
     .item-index {

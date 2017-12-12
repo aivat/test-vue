@@ -12,8 +12,8 @@
                     <router-link tag ="a" v-bind:to="currentRoute" v-show="titlePage == 'editAuthorTitle'">Редактирование автора</router-link>
                 </div>
                 <div class="header-right">
-                    <router-link class="btn-1" tag ="a" to="/addbook" v-show="currentRoute === '/'">Add Book</router-link>
-                    <router-link class="btn-1" tag ="a" to="/adduser" v-show="currentRoute === '/users'">Add User</router-link>     
+                    <router-link class="btn-1" tag ="a" to="/addbook" v-show="currentRoute === '/'">Добавить книгу</router-link>
+                    <router-link class="btn-1" tag ="a" to="/adduser" v-show="currentRoute === '/users'">Добавить пользователя</router-link>     
                 </div>
             </div>
         </div>

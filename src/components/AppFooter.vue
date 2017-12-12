@@ -3,10 +3,10 @@
       <div class="container">
             <div class="foot-cont">
                 <div class="footer-left">
-                    <router-link class="btn-1" tag ="a" to="/" @click.native="$emit('onPageTitle','books')">Books</router-link>
+                    <router-link class="btn-1" tag ="a" to="/" @click.native="$emit('onPageTitle','books')">Книги</router-link>
                 </div>
                 <div class="footer-right">
-                    <router-link class="btn-1" tag ="a" to="/users"  @click.native="$emit('onPageTitle', 'users')">Users</router-link>
+                    <router-link class="btn-1" tag ="a" to="/users"  @click.native="$emit('onPageTitle', 'users')">Пользователи</router-link>
                    
                 </div>
                 
