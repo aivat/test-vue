@@ -5,11 +5,10 @@
                 <div class="list-item users-list-item" v-for="user in users">
                     <div class="user">
                         <div class="item-index">
-                            {{ users.id }}
-                            {{ users }}
+                            {{ users[0].id }}
                         </div>
                         <div class="info-user">
-                            <router-link tag ="a" v-bind:to="{ name: 'editUser', params: { idUser: user.id }}">{{ users.first_name }} {{ users.last_name }}</router-link>
+                            <router-link tag ="a" v-bind:to="{ name: 'editUser', params: { idUser: user.id }}">{{ users[0].first_name }} {{ users[0].last_name }}</router-link>
                         </div>
                     </div>
                     <div class="user-action">
@@ -27,7 +26,7 @@ import  axios from 'axios'
 export default {
     data () {
         return {
-            users: null
+            users: {}
         }
       },
     created () {
@@ -41,12 +40,14 @@ export default {
     methods: {
         fetchData () {
             axios.get('/users/1')
-                .then(function (response) {
-                    console.log(response);
-                    this.users = response.data
+                .then(response =>{
+                    //console.log(response);
+				 console.log(response.data);
+                    this.users = response.data;
+				console.log(this.users);
                 })
-                .catch(function (error) {
-                    console.log(error.message);
+                .catch(e => {
+                    console.log(e.message);
                 });
         }
     }
