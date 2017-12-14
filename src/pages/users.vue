@@ -5,14 +5,15 @@
                 <div class="list-item users-list-item" v-for="user in users">
                     <div class="user">
                         <div class="item-index">
-                            {{ user.idUser }}
+                            {{ users.id }}
+                            {{ users }}
                         </div>
                         <div class="info-user">
-                            <router-link tag ="a" v-bind:to="{ name: 'editUser', params: { idUser: user.idUser }}">{{ user.user }}</router-link>
+                            <router-link tag ="a" v-bind:to="{ name: 'editUser', params: { idUser: user.id }}">{{ users.first_name }} {{ users.last_name }}</router-link>
                         </div>
                     </div>
                     <div class="user-action">
-                        <router-link tag ="a" class="btn-3" v-bind:to="{ name: 'giveBook', params: { idUser: user.idUser }}">Личный кабинет</router-link>
+                        <router-link tag ="a" class="btn-3" v-bind:to="{ name: 'giveBook', params: { idUser: user.id }}">Личный кабинет</router-link>
                      </div>        
                 </div>
             </div>
@@ -21,12 +22,34 @@
 </template>
 
 <script>
+import  axios from 'axios'
+    
 export default {
-  data () {
-    return {
-      users: mapFromSomewhereUsers()
+    data () {
+        return {
+            users: null
+        }
+      },
+    created () {
+    // запрашиваем данные когда реактивное представление уже создано
+    this.fetchData()
+    },
+    watch: {
+    // в случае изменения маршрута запрашиваем данные вновь
+    '$route': 'fetchData'
+    },
+    methods: {
+        fetchData () {
+            axios.get('/users/1')
+                .then(function (response) {
+                    console.log(response);
+                    this.users = response.data
+                })
+                .catch(function (error) {
+                    console.log(error.message);
+                });
+        }
     }
-  }
 }
 	
 function mapFromSomewhereUsers () {
