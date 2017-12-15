@@ -4,11 +4,11 @@
 		<div class="book-list">
 			<div class="list-item" v-for="book in books">
 				<div class="item-index">
-					{{ book.idBook }}
+					{{ book.id }}
 				</div>
 				<div class="book" >
 					<div class="title-book">
-						<router-link tag ="a" v-bind:to="{ name: 'editBook', params: { idBook: book.idBook }}">{{ book.nameBook }}</router-link>
+						<router-link tag ="a" v-bind:to="{ name: 'editBook', params: { idBook: book.id }}">{{ book.title_book }}</router-link>
 					</div>
 					<div class="author">
 						<router-link tag ="a" v-bind:to="{ name: 'editAuthor', params: { idAuthor: book.idAuthor }}">{{ book.author }}</router-link>     
@@ -21,12 +21,38 @@
 </template>
 
 <script>
+    
+import  axios from 'axios'
+    
 export default {
-  data () {
-    return {
-      books: mapFromSomewhereBooks()
-    }
-  }
+    data () {
+        return {
+          books: {}
+            }
+        },
+    
+    created () {
+            // запрашиваем данные когда реактивное представление уже создано
+            this.fetchData()
+        },
+    
+    watch: {
+        // в случае изменения маршрута запрашиваем данные вновь
+            '$route': 'fetchData'
+        },
+    
+    methods: {
+        
+        fetchData () {
+                axios.get('http://testik.ru/books/')
+                    .then(response =>{
+                        this.books = response.data;
+                    })
+                    .catch(e => {
+                        console.log(e.message);
+                    });
+                }
+        }
 }
 
 function mapFromSomewhereBooks () {

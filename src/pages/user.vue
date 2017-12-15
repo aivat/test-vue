@@ -6,15 +6,15 @@
                 <fieldset>
                     <legend>Редактирование пользователя</legend>
                     <label for="surname">Фамилия</label>
-                    <input type="text" id="surname" name="surname" placeholder="Иванов" required>
+                    <input type="text" id="surname" name="surname" :placeholder="user[0].first_name" required v-bind:value="user[0].first_name">
                     <label for="name">Имя</label>
-                    <input type="text" id="name" name="name" placeholder="Иван" required>
+                    <input type="text" id="name" name="name" :placeholder="user[0].last_name" required  v-bind:value="user[0].last_name">
                     <label for="patronymic">Отчество</label>
-                    <input type="text" id="patronymic" name="patronymic" placeholder="Иванович" required>
+                    <input type="text" id="patronymic" name="patronymic" :placeholder="user[0].patronymic" required v-bind:value="user[0].patronymic">
                     <label for="dateOfBirth">Дата рождения</label>
-                    <input type="date" id="dateOfBirth" name="dateOfBirth" pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}" placeholder="01.01.1970">
+                    <input type="date" id="dateOfBirth" name="dateOfBirth" pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}" placeholder="01.01.1970" v-bind:value="user[0].birth_date">
                     <label for="tel">Номер телефона</label>
-                    <input type="tel" id="tel" name="tel" placeholder="Формат номера XXXXXXXXXX" required>
+                    <input type="tel" id="tel" name="tel" placeholder="Формат номера XXXXXXXXXX" required v-bind:value="user[0].phone_number">
                 </fieldset>
                 <div class="buttons">
                     <input type="submit" value="Сохранить" class="btn-1">
@@ -27,12 +27,46 @@
 </template>
 
 <script>
+import { router } from '../main.js'
+import  axios from 'axios'
+    
 export default {
-  data () {
-    return {
-      state: 'Welcome to Your Vue.js App'
-    }
-  }
+    data () {
+        return {
+            user: {},           
+            currentRoute: router.currentRoute.path
+            }
+ 	
+        },
+    
+    created () {
+            // запрашиваем данные когда реактивное представление уже создано
+            this.fetchData()
+        },
+    
+    watch: {
+        // в случае изменения маршрута запрашиваем данные вновь
+            '$route': 'fetchData',
+            '$route' (to, from) {
+                console.log('to.path2=', to.path);
+                console.log('from.path2=', from.path);
+                this.currentRoute = to.path;
+		      }
+        },
+    
+    methods: {
+        
+        fetchData () {
+                axios.get('http://testik.ru' + this.currentRoute)
+                    .then(response =>{
+                    console.log('роутер =', this.currentRoute);
+                       this.user = response.data;
+                    })
+                    .catch(e => {
+                        console.log(e.message);
+                    });
+                }
+        }
 }
 </script>
 

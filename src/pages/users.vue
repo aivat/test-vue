@@ -5,10 +5,10 @@
                 <div class="list-item users-list-item" v-for="user in users">
                     <div class="user">
                         <div class="item-index">
-                            {{ users[0].id }}
+                            {{ user.id }}
                         </div>
                         <div class="info-user">
-                            <router-link tag ="a" v-bind:to="{ name: 'editUser', params: { idUser: user.id }}">{{ users[0].first_name }} {{ users[0].last_name }}</router-link>
+                            <router-link tag ="a" v-bind:to="{ name: 'editUser', params: { idUser: user.id }}">{{ user.first_name }} {{ user.last_name }} {{ user.patronymic }}</router-link>
                         </div>
                     </div>
                     <div class="user-action">
@@ -21,6 +21,7 @@
 </template>
 
 <script>
+    
 import  axios from 'axios'
     
 export default {
@@ -39,7 +40,7 @@ export default {
     },
     methods: {
         fetchData () {
-            axios.get('/users/1')
+            axios.get('http://testik.ru/users/')
                 .then(response =>{
                     //console.log(response);
 				 console.log(response.data);

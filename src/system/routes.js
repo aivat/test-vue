@@ -13,8 +13,8 @@ export const routes = [
     { path: '/users', component: Users},
     { path: '/addbook', component: AddBook},
     { path: '/adduser', component: AddUser},
-	{ path: '/user/:idUser', name: 'editUser', component: User},
-	{ path: '/book/:idBook', name: 'editBook', component: Book},
-	{ path: '/author/:idAuthor', name: 'editAuthor', component: Author},
-    { path: '/user/:idUser/givebook', name: 'giveBook', component: GiveBook}
+	{ path: '/users/:idUser', name: 'editUser', component: User},
+	{ path: '/books/:idBook', name: 'editBook', component: Book},
+	{ path: '/authors/:idAuthor', name: 'editAuthor', component: Author},
+    { path: '/users/:idUser/givebook', name: 'giveBook', component: GiveBook}
 ]
