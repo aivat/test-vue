@@ -1,18 +1,16 @@
 <template>
   <div class="content">
-      <div class="container">
-          
+      <div class="container">  
         <div class="book-list">
             <form action="/echo" method="post">
-                <fieldset>
+                <fieldset v-for="book in books">
                     <legend>Редактирование книги</legend>
                     <label for="name-book">Название книги</label>
-                    <input type="text" id="name-book" name="name-book" placeholder="Название книги" required>
+                    <input type="text" id="name-book" name="name-book" placeholder="Название книги" required v-bind:value="book.title_book">
                     <label for="author">Автор</label>
-                    <input type="text" id="author" name="author" placeholder="Автор" required>
+                    <input type="text" id="author" name="author" placeholder="Автор" required v-bind:value="book.author">
                     <label for="annotation">Аннотация</label>
-                    
-                    <textarea id="annotation" name="annotation" rows="8" placeholder="Краткое содержание"></textarea>
+                    <textarea id="annotation" name="annotation" rows="8" placeholder="Краткое содержание" v-bind:value="book.annotation"></textarea>
                 </fieldset>
                 <div class="buttons">
                     <input type="submit" value="Сохранить" class="btn-1">
@@ -25,12 +23,37 @@
 </template>
 
 <script>
+import { router } from '../main.js'
+import  axios from 'axios'
+    
 export default {
-  data () {
-    return {
-      state: 'Welcome to Your Vue.js App'
-    }
-  }
+    data () {
+        return {
+            books: [],           
+            currentRoute: router.currentRoute.path
+            }
+    },
+    created () {
+            // запрашиваем данные когда реактивное представление уже создано
+            this.fetchData()
+    },  
+    watch: {
+        	// в случае изменения маршрута запрашиваем данные вновь
+            '$route': 'fetchData'
+    }, 
+    methods: {  
+			fetchData () {
+					axios.get('http://testik.ru' + this.currentRoute)
+						.then(response =>{
+								console.log('роутер =', this.currentRoute);
+								this.books = response.data;
+								console.log('данные =', response);
+						})
+						.catch(e => {
+								console.log(e.message);
+						});
+					}
+			}
 }
 </script>
 

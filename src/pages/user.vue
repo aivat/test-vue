@@ -3,18 +3,18 @@
       <div class="container">   
         <div class="book-list">
             <form action="/echo" method="post">
-                <fieldset>
+                <fieldset v-for="user in users">
                     <legend>Редактирование пользователя</legend>
                     <label for="surname">Фамилия</label>
-                    <input type="text" id="surname" name="surname" :placeholder="user[0].first_name" required v-bind:value="user[0].first_name">
+                    <input type="text" id="surname" name="surname" placeholder="Фамилия" required v-bind:value="user.first_name">
                     <label for="name">Имя</label>
-                    <input type="text" id="name" name="name" :placeholder="user[0].last_name" required  v-bind:value="user[0].last_name">
+                    <input type="text" id="name" name="name" placeholder="Имя" required  v-bind:value="user.last_name">
                     <label for="patronymic">Отчество</label>
-                    <input type="text" id="patronymic" name="patronymic" :placeholder="user[0].patronymic" required v-bind:value="user[0].patronymic">
+                    <input type="text" id="patronymic" name="patronymic" placeholder="Отчество" required v-bind:value="user.patronymic">
                     <label for="dateOfBirth">Дата рождения</label>
-                    <input type="date" id="dateOfBirth" name="dateOfBirth" pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}" placeholder="01.01.1970" v-bind:value="user[0].birth_date">
+                    <input type="date" id="dateOfBirth" name="dateOfBirth" pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}" placeholder="01.01.1970" value="01.01.1970">
                     <label for="tel">Номер телефона</label>
-                    <input type="tel" id="tel" name="tel" placeholder="Формат номера XXXXXXXXXX" required v-bind:value="user[0].phone_number">
+                    <input type="tel" id="tel" name="tel" placeholder="Формат номера XXXXXXXXXX" required v-bind:value="user.phone_number">
                 </fieldset>
                 <div class="buttons">
                     <input type="submit" value="Сохранить" class="btn-1">
@@ -33,40 +33,31 @@ import  axios from 'axios'
 export default {
     data () {
         return {
-            user: {},           
+            users: [],           
             currentRoute: router.currentRoute.path
             }
- 	
-        },
-    
+    },
     created () {
             // запрашиваем данные когда реактивное представление уже создано
             this.fetchData()
-        },
-    
+    },  
     watch: {
-        // в случае изменения маршрута запрашиваем данные вновь
-            '$route': 'fetchData',
-            '$route' (to, from) {
-                console.log('to.path2=', to.path);
-                console.log('from.path2=', from.path);
-                this.currentRoute = to.path;
-		      }
-        },
-    
-    methods: {
-        
-        fetchData () {
-                axios.get('http://testik.ru' + this.currentRoute)
-                    .then(response =>{
-                    console.log('роутер =', this.currentRoute);
-                       this.user = response.data;
-                    })
-                    .catch(e => {
-                        console.log(e.message);
-                    });
-                }
-        }
+        	// в случае изменения маршрута запрашиваем данные вновь
+            '$route': 'fetchData'
+    }, 
+    methods: {  
+			fetchData () {
+					axios.get('http://testik.ru' + this.currentRoute)
+						.then(response =>{
+								console.log('роутер =', this.currentRoute);
+								this.users = response.data;
+								console.log('данные =', response);
+						})
+						.catch(e => {
+								console.log(e.message);
+						});
+					}
+			}
 }
 </script>
 

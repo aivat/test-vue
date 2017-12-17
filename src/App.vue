@@ -13,8 +13,7 @@ export default {
   data () {
     return {
         state: '1',
-        page: 'Books'
-		
+        page: 'Books'		
     }
   },
  methods: {
@@ -45,13 +44,7 @@ export default {
              this.page = 'Add Book';
          } 
      }
- },
-mounted: function () { 
-    
-        this.$root.$on('onPageTitle', function(title){
-           console.log('456789');
-        });
-    }
+ }
 }
 </script>
 
@@ -61,24 +54,20 @@ mounted: function () {
         padding: 0;
         font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
         font-size: 14px;
+		
     }
 
     html, body {
         height: 100%;
     }
-
-    /*#app {
-      font-family: 'Avenir', Helvetica, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }*/
-
+	
     .wrapper {
        display: flex;
         flex-direction: column;
-        height: 100%;
+       height: 100%;
         /*border: 2px dotted #0dd03a;*/
         align-items: center;
+		
     }
 
     .container {
@@ -87,6 +76,7 @@ mounted: function () {
         align-items: flex-start;
         /* border: 1px solid #070606;*/
         width: 100%;
+		
     }
     
     @media  all and (min-width: 1060px) {
@@ -102,6 +92,7 @@ mounted: function () {
         background-color:  rgba(207, 225, 244, 0.5);
         justify-content: center;
         width: 100%;
+			
         /*border: 1px solid #0dd03a;*/
     }
     .book-list {
@@ -116,6 +107,7 @@ mounted: function () {
         /* border: 1px solid #E55FFA;*/
         margin-bottom: 65px;
         border: 1px solid #c9d0d6;
+		
     }
     
     .list-item {

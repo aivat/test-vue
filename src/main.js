@@ -16,15 +16,15 @@ Vue.component('App', App);
 /*Vue.component('book', book);
 Vue.component('users', users);*/
 Vue.use(VueRouter)
-Vue.use(axios)
+/*Vue.use(axios)*/
 
 export const router = new VueRouter({
     mode: 'history',
     routes
 })
 
-export const axiosQwe = new axios({
-})
+/*export const axiosQwe = new axios({
+})*/
 
 new Vue({
   el: '#app',

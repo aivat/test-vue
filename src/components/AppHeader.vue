@@ -33,9 +33,9 @@ export default {
     computed: {
         titlePage: function () {
             let page; 
-            let regexpUser = /user\/\d{1,}/g;
-            let regexpBook = /book\/\d{1,}/g;
-            let regexpAuthor = /author\/\d{1,}/g;
+            let regexpUser = /users\/\d{1,}/g;
+            let regexpBook = /books\/\d{1,}/g;
+            let regexpAuthor = /authors\/\d{1,}/g;
             if (this.currentRoute.match(regexpUser) != null) {
                 console.log('match=', this.currentRoute.match(regexpUser));
                 page = 'editUserTitle';

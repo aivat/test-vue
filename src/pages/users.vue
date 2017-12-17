@@ -2,7 +2,7 @@
     <div class="content">
         <div class="container">
             <div class="book-list">
-                <div class="list-item users-list-item" v-for="user in users">
+                <div class="list-item users-list-item" v-for="user in users" v-if="users">
                     <div class="user">
                         <div class="item-index">
                             {{ user.id }}
@@ -15,6 +15,9 @@
                         <router-link tag ="a" class="btn-3" v-bind:to="{ name: 'giveBook', params: { idUser: user.id }}">Личный кабинет</router-link>
                      </div>        
                 </div>
+				<div class="list-loader" v-if="loading">
+					<img src="../assets/loader2.gif">
+				</div>
             </div>
         </div>
     </div>
@@ -27,33 +30,64 @@ import  axios from 'axios'
 export default {
     data () {
         return {
-            users: {}
+            users: [],
+			loading: false,
+			error: false,
+			count: 15,
+			first: 0,
+			scrolled: false
         }
-      },
-    created () {
-    // запрашиваем данные когда реактивное представление уже создано
-    this.fetchData()
     },
+	computed: {
+		resourseUrl() {
+			return 'http://testik.ru/users?count='+this.count+'&first='+this.first
+		}
+	},
+    created () {
+			// запрашиваем данные когда реактивное представление уже создано
+			this.fetchData(),
+			window.addEventListener('scroll', this.handleScroll)
+    },
+	destroyed () {
+	  		window.removeEventListener('scroll', this.handleScroll)
+	},
     watch: {
-    // в случае изменения маршрута запрашиваем данные вновь
-    '$route': 'fetchData'
+    		// в случае изменения маршрута запрашиваем данные вновь
+    		'$route': 'fetchData'
     },
     methods: {
-        fetchData () {
-            axios.get('http://testik.ru/users/')
-                .then(response =>{
-                    //console.log(response);
-				 console.log(response.data);
-                    this.users = response.data;
-				console.log(this.users);
-                })
-                .catch(e => {
-                    console.log(e.message);
-                });
-        }
+			fetchData () {
+				this.loading = true
+				axios.get(this.resourseUrl)
+					.then(response =>{
+							console.log(response)
+							this.users = this.users.concat(response.data)
+							this.loading = false
+							this.count = this.count + 10
+							this.first = this.first + 1
+					})
+					.catch(e => {
+							console.log(e.message)
+							this.error = true
+							this.loading = false
+					});
+			},
+			handleScroll (event) {
+				// почему так высчитывается так до конца и не разобрался, но математическим путем опряделяется верно. 40 пиксей добавил, чтобы загрузка происхода еще до прокрутки до самого низа
+				let scrollTop = window.pageYOffset,
+					listOffsetHeight = document.body.offsetHeight,
+					listScrollHeight = document.body.scrollHeight
+
+				let diffHeight = listScrollHeight - listOffsetHeight
+
+				if (diffHeight <= (scrollTop+40) && !this.loading && !this.error) {
+					this.fetchData ();
+				}
+			}
     }
 }
 	
+// временное решение типа по API возвращаются данные	
 function mapFromSomewhereUsers () {
 	return {
 		1: {
