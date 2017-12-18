@@ -29,7 +29,7 @@ import  axios from 'axios'
 export default {
     data () {
         return {
-            books: [],           
+            books: {},           
             currentRoute: router.currentRoute.path,
             postBody: {
                     title_book: '',

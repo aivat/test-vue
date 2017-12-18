@@ -1,37 +1,19 @@
 <template>
   <div class="content">
-      <div class="container">
-          
+      <div class="container">    
         <div class="book-list">
-            <form action="/echo" method="post">
+            <form method="post">
                 <fieldset>
                     <legend>Добавление книги</legend>
                     <label for="name-book">Название книги</label>
-                    <input type="text" id="name-book" name="name-book" placeholder="Название книги" required>
+                    <input type="text" id="name-book" name="name-book" placeholder="Название книги" v-model="book.title_book">
                     <label for="author">Автор</label>
-                    <input type="text" id="author" name="author" placeholder="Автор" required>
+                    <input type="text" id="author" name="author" placeholder="Автор" required v-model="book.author">
                     <label for="annotation">Аннотация</label>
-                    
-                    <textarea id="annotation" name="annotation" rows="8" placeholder="Краткое содержание"></textarea>
+                    <textarea id="annotation" name="annotation" rows="8" placeholder="Краткое содержание" v-model="book.annotation"></textarea>
                 </fieldset>
                 <div class="buttons">
-                    <input type="submit" value="Добавить" class="btn-1">
-                    <input type="submit" value="Отмена" class="btn-1">
-                </div>
-            </form>
-            <form action="/echo" method="post">
-                <fieldset>
-                    <legend>Добавление книги</legend>
-                    <label for="name-book">Название книги</label>
-                    <input type="text" id="name-book" name="name-book" placeholder="Название книги" required>
-                    <label for="author">Автор</label>
-                    <input type="text" id="author" name="author" placeholder="Автор" required>
-                    <label for="annotation">Аннотация</label>
-                    
-                    <textarea id="annotation" name="annotation" rows="8" placeholder="Краткое содержание"></textarea>
-                </fieldset>
-                <div class="buttons">
-                    <input type="submit" value="Добавить" class="btn-1">
+                    <input value="Добавить" class="btn-1" v-on:click="postDataNewBook()">
                     <input type="submit" value="Отмена" class="btn-1">
                 </div>
             </form>
@@ -41,12 +23,31 @@
 </template>
 
 <script>
+import { router } from '../main.js'
+import  axios from 'axios'
+    
 export default {
-  data () {
-    return {
-      state: 'Welcome to Your Vue.js App'
+    data () {
+        return {
+            book: {
+				    title_book: '',
+                    author: '',
+                    annotation: ''
+			},           
+            currentRoute: router.currentRoute.path
+		}
+    },
+    methods: {  
+            postDataNewBook () {
+                axios.post('http://testik.ru/books/new', this.book)
+                .then(response => {
+                    console.log('данные =', response);
+                })
+                .catch(e => {
+                  this.errors.push(e)
+                })   
+            }
     }
-  }
 }
 </script>
 
