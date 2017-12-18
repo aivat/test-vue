@@ -2,18 +2,18 @@
   <div class="content">
       <div class="container">  
         <div class="book-list">
-            <form action="/echo" method="post">
+            <form method="post">
                 <fieldset v-for="book in books">
                     <legend>Редактирование книги</legend>
                     <label for="name-book">Название книги</label>
-                    <input type="text" id="name-book" name="name-book" placeholder="Название книги" required v-bind:value="book.title_book">
+                    <input type="text" id="name-book" name="name-book" placeholder="Название книги" required v-model="book.title_book">
                     <label for="author">Автор</label>
-                    <input type="text" id="author" name="author" placeholder="Автор" required v-bind:value="book.author">
+                    <input type="text" id="author" name="author" placeholder="Автор" required v-model="book.author">
                     <label for="annotation">Аннотация</label>
-                    <textarea id="annotation" name="annotation" rows="8" placeholder="Краткое содержание" v-bind:value="book.annotation"></textarea>
+                    <textarea id="annotation" name="annotation" rows="8" placeholder="Краткое содержание" v-model="book.annotation"></textarea>
                 </fieldset>
                 <div class="buttons">
-                    <input type="submit" value="Сохранить" class="btn-1">
+                    <input value="Сохранить" class="btn-1" v-on:click="postData()">
                     <input type="submit" value="Отмена" class="btn-1">
                 </div>
             </form>
@@ -30,7 +30,12 @@ export default {
     data () {
         return {
             books: [],           
-            currentRoute: router.currentRoute.path
+            currentRoute: router.currentRoute.path,
+            postBody: {
+                    title_book: '',
+                    author: '',
+                    annotation: ''    
+                }
             }
     },
     created () {
@@ -52,12 +57,25 @@ export default {
 						.catch(e => {
 								console.log(e.message);
 						});
-					}
-			}
+					},
+            postData () {
+                this.postBody.title_book = this.books[0].title_book
+                this.postBody.author = this.books[0].author
+                this.postBody.annotation = this.books[0].annotation
+                axios.post('http://testik.ru' + this.currentRoute, this.postBody)
+                .then(response => {
+                    console.log('данные =', response);
+                })
+                .catch(e => {
+                  this.errors.push(e)
+                })   
+            }
+    }
 }
 </script>
 
 <style>
+    
 	.book-list {
     display: flex;
     flex-direction:column;

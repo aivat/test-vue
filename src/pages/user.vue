@@ -2,22 +2,22 @@
   <div class="content">
       <div class="container">   
         <div class="book-list">
-            <form action="/echo" method="post">
-                <fieldset v-for="user in users">
+            <form method="post">
+                <fieldset v-for="user in users" >
                     <legend>Редактирование пользователя</legend>
                     <label for="surname">Фамилия</label>
-                    <input type="text" id="surname" name="surname" placeholder="Фамилия" required v-bind:value="user.first_name">
+                    <input type="text" id="surname" name="first_name" placeholder="Фамилия" required v-model="user.first_name">
                     <label for="name">Имя</label>
-                    <input type="text" id="name" name="name" placeholder="Имя" required  v-bind:value="user.last_name">
+                    <input type="text" id="name" name="last_name" placeholder="Имя" required  v-model="user.last_name">
                     <label for="patronymic">Отчество</label>
-                    <input type="text" id="patronymic" name="patronymic" placeholder="Отчество" required v-bind:value="user.patronymic">
-                    <label for="dateOfBirth">Дата рождения</label>
-                    <input type="date" id="dateOfBirth" name="dateOfBirth" pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}" placeholder="01.01.1970" value="01.01.1970">
+                    <input type="text" id="patronymic" name="patronymic" placeholder="Отчество" required v-model="user.patronymic">
+
+
                     <label for="tel">Номер телефона</label>
-                    <input type="tel" id="tel" name="tel" placeholder="Формат номера XXXXXXXXXX" required v-bind:value="user.phone_number">
+                    <input type="tel" id="tel" name="phone_number" placeholder="Формат номера XXXXXXXXXX" required v-model="user.phone_number">
                 </fieldset>
                 <div class="buttons">
-                    <input type="submit" value="Сохранить" class="btn-1">
+                    <input value="Сохранить" class="btn-1" v-on:click="postData()">
                     <input type="submit" value="Отмена" class="btn-1">
                 </div>
             </form>
@@ -33,9 +33,15 @@ import  axios from 'axios'
 export default {
     data () {
         return {
-            users: [],           
-            currentRoute: router.currentRoute.path
+            users: {},           
+            currentRoute: router.currentRoute.path,
+            postBody: {
+                first_name: '',
+                last_name: '',
+                patronymic: '',
+                phone_number: ''
             }
+        }
     },
     created () {
             // запрашиваем данные когда реактивное представление уже создано
@@ -56,8 +62,21 @@ export default {
 						.catch(e => {
 								console.log(e.message);
 						});
-					}
-			}
+			},
+            postData () {
+                this.postBody.first_name = this.users[0].first_name
+                this.postBody.last_name = this.users[0].last_name
+                this.postBody.patronymic = this.users[0].patronymic
+                this.postBody.phone_number = this.users[0].phone_number
+                axios.post('http://testik.ru' + this.currentRoute, this.postBody)
+                .then(response => {
+                    console.log('данные =', response);
+                })
+                .catch(e => {
+                  this.errors.push(e)
+                })   
+            }
+    }
 }
 </script>
 
