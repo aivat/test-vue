@@ -71,7 +71,9 @@ export default {
         flex-direction:column;
         justify-content: space-between;
     }
-    
+            .buttons {
+        margin-top: 20px;
+    }
 	.book-list {
     display: flex;
     flex-direction:column;

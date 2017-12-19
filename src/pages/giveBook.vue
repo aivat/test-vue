@@ -97,12 +97,69 @@
 </template>
 
 <script>
+import { router } from '../main.js'
+import  axios from 'axios'
+    
 export default {
-  data () {
-    return {
-      state: 'Welcome to Your Vue.js App'
+    data () {
+        return {
+            givebook: {
+				    title_book: '',
+                    author: ''
+			},           
+            currentRoute: router.currentRoute.path,
+            loading: false
+		}
+    },
+    computed: {
+        isBook: function () {
+                if ( this.book.title_book == '' || this.book.author == '' || this.book.annotation == '' ) {
+                   return false
+                } else return true
+        },
+        getIdUsers: function () {
+            let id = this.currentRoute.split('/')
+            return id[2]        
+        }
+    },
+    created () {
+			// запрашиваем данные когда реактивное представление уже создано
+			//this.fetchData(),
+			window.addEventListener('scroll', this.handleScroll)
+            console.log(this.getIdUsers)
+    },
+    methods: {  
+            postDataNewBook () {
+                if ( this.isBook ) {
+                    axios.post('http://testik.ru/books/new', this.book)
+                    .then(response => {
+                        console.log('данные =', response);
+                        router.push({ path: '/' })
+                    })
+                    .catch(e => {
+                      this.errors.push(e)
+                    })    
+                } else {
+                    console.log('Пустые поля')
+                }  
+            },
+			fetchData () {
+				this.loading = true
+				axios.get('http://testik.ru' + this.currentRoute)
+					.then(response =>{
+							console.log(response)
+							this.users = response.data
+							this.loading = false
+							this.count = this.count + 10
+							this.first = this.first + 1
+					})
+					.catch(e => {
+							console.log(e.message)
+							this.error = true
+							this.loading = false
+					});
+			}
     }
-  }
 }
 </script>
 
@@ -134,8 +191,9 @@ export default {
    /* margin-top: 0;*/
 }
     .del-margin-book {
-          margin-bottom: 0;
-   margin-top: 0;  
+        margin-bottom: 0;
+        margin-top: 0;  
+        padding: 0 10px;
     }
     
     .title-give {
