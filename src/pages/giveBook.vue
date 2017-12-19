@@ -4,10 +4,8 @@
         <div class="container-give-book">
         <div class="give-book del-bottom">
             <div class="title-give">
-                <p>Выдать книгу 
-                    <a href="#" class="user-name">
-                        Баймешову Айвату
-                    </a>
+                <p>Выдать книгу пользователю
+					<router-link tag ="a" class="user-name" v-bind:to="{ name: 'editUser', params: { idUser: getIdUsers }}">{{ users.last_name }} {{ users.first_name }}</router-link>  
                 </p>
             </div>
             <div class="searсh-book">
@@ -57,31 +55,17 @@
             </div>
         </div>  
         <div class="book-list del-margin-book">
-            <div class="list-item list-item-book-delet">
+            <div class="list-item list-item-book-delet" v-for="book in userHaveBooks">
                 <div class="list-item-book">
-                    <div class="item-index">1</div>
+                    <div class="item-index">
+						{{ book.id }}
+					</div>
                     <div class="book">
                         <div class="title-book">
-                            <a href="#">Мастер и Маргарита Мастер и Маргарита Мастер и Маргарита Мастер и Маргарита</a>                   
+							<router-link tag ="a" v-bind:to="{ name: 'editBook', params: { idBook: book.id }}">{{ book.title_book }}</router-link>             
                         </div>
                         <div class="author">
-                            <a href="#">Михаил Афанасьевич Булгаков</a>            
-                        </div>
-                    </div>
-                </div>
-                <div class="book-delet">
-                    <button type="submit" class="btn-2">Удалить книгу</button>
-                </div>
-            </div>
-            <div class="list-item list-item-book-delet">
-                <div class="list-item-book">
-                    <div class="item-index">1</div>
-                    <div class="book">
-                        <div class="title-book">
-                            <a href="#">Мастер и Маргарита</a>                   
-                        </div>
-                        <div class="author">
-                            <a href="#">Михаил Афанасьевич Булгаков</a>            
+							<router-link tag ="a" v-bind:to="{ name: 'editAuthor', params: { idAuthor: book.id }}">{{ book.author }}</router-link>         
                         </div>
                     </div>
                 </div>
@@ -103,20 +87,25 @@ import  axios from 'axios'
 export default {
     data () {
         return {
-            givebook: {
-				    title_book: '',
-                    author: ''
+            userHaveBooks: {
+					1: {id: '1',
+					id_book: '2',
+				    title_book: 'asd',
+                    author: 'asd'
+					   },
+				2: {
+				id: '1',
+					id_book: '2',
+				    title_book: 'asd',
+                    author: 'asd'
+				}
 			},           
             currentRoute: router.currentRoute.path,
-            loading: false
+            loading: false,
+			users: {}
 		}
     },
     computed: {
-        isBook: function () {
-                if ( this.book.title_book == '' || this.book.author == '' || this.book.annotation == '' ) {
-                   return false
-                } else return true
-        },
         getIdUsers: function () {
             let id = this.currentRoute.split('/')
             return id[2]        
@@ -125,40 +114,46 @@ export default {
     created () {
 			// запрашиваем данные когда реактивное представление уже создано
 			//this.fetchData(),
-			window.addEventListener('scroll', this.handleScroll)
-            console.log(this.getIdUsers)
+			window.addEventListener('scroll', this.handleScroll),
+            console.log(this.getIdUsers),
+			this.fetchDataUser ()
     },
-    methods: {  
-            postDataNewBook () {
-                if ( this.isBook ) {
-                    axios.post('http://testik.ru/books/new', this.book)
-                    .then(response => {
-                        console.log('данные =', response);
-                        router.push({ path: '/' })
-                    })
-                    .catch(e => {
-                      this.errors.push(e)
-                    })    
-                } else {
-                    console.log('Пустые поля')
-                }  
-            },
-			fetchData () {
+	watch: {
+        // в случае изменения маршрута запрашиваем данные вновь
+            '$route': 'fetchDataUser'		
+    }, 
+    methods: {
+			fetchDataUser () {
 				this.loading = true
-				axios.get('http://testik.ru' + this.currentRoute)
+				axios.get('http://testik.ru/users/' + this.getIdUsers)
 					.then(response =>{
 							console.log(response)
-							this.users = response.data
+							this.users = response.data[0]
+							console.log('this.users =', this.users )
 							this.loading = false
-							this.count = this.count + 10
-							this.first = this.first + 1
 					})
 					.catch(e => {
 							console.log(e.message)
 							this.error = true
 							this.loading = false
 					});
-			}
+			},
+        	fetchDataBook () {
+				this.loading = true
+                axios.get('http://testik.ru', this.currentRoute)
+                    .then(response =>{
+						//this.books = response.data
+						console.log(response)
+                       	this.userHaveBooks = response.data
+						//this.resourseUrl = ''
+						this.loading = false
+                    })
+                    .catch(e => {
+                        console.log(e.message)
+						this.error = true
+						this.loading = false
+                    });
+            }
     }
 }
 </script>
