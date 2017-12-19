@@ -2,7 +2,7 @@
   <div class="content">
       <div class="container">   
         <div class="book-list">
-            <form method="post">
+            <div class="wrapper-add">
                 <fieldset v-for="user in users" >
                     <legend>Редактирование пользователя</legend>
                     <label for="surname">Фамилия</label>
@@ -11,16 +11,14 @@
                     <input type="text" id="name" name="last_name" placeholder="Имя" required  v-model="user.last_name">
                     <label for="patronymic">Отчество</label>
                     <input type="text" id="patronymic" name="patronymic" placeholder="Отчество" required v-model="user.patronymic">
-
-
                     <label for="tel">Номер телефона</label>
                     <input type="tel" id="tel" name="phone_number" placeholder="Формат номера XXXXXXXXXX" required v-model="user.phone_number">
                 </fieldset>
                 <div class="buttons">
-                    <input value="Сохранить" class="btn-1" v-on:click="postData()">
-                    <input type="submit" value="Отмена" class="btn-1">
+                    <button class="btn-1" v-on:click="postData()">Сохранить</button>
+                    <router-link class="btn-1" tag ="a" to="/users" >Отмена</router-link> 
                 </div>
-            </form>
+            </div>
         </div>
       </div>
   </div>
@@ -70,7 +68,8 @@ export default {
                 this.postBody.phone_number = this.users[0].phone_number
                 axios.post('http://testik.ru' + this.currentRoute, this.postBody)
                 .then(response => {
-                    console.log('данные =', response);
+                    console.log('данные =', response)
+                    router.push({ path: '/users' })
                 })
                 .catch(e => {
                   this.errors.push(e)
@@ -81,6 +80,16 @@ export default {
 </script>
 
 <style>
+        .wrapper-add {
+      padding: 20px 0;  
+        display: flex;
+        flex-direction:column;
+        justify-content: space-between;
+    }
+    
+        .buttons {
+        margin-top: 20px;
+    }
 		.book-list {
     display: flex;
     flex-direction:column;

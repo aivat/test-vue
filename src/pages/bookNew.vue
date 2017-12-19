@@ -2,9 +2,10 @@
   <div class="content">
       <div class="container">    
         <div class="book-list">
-            <form method="post">
+            <div class="wrapper-add">
                 <fieldset>
                     <legend>Добавление книги</legend>
+                    <label v-show="!isBook" class="error-add">Заполните все поля!</label>
                     <label for="name-book">Название книги</label>
                     <input type="text" id="name-book" name="name-book" placeholder="Название книги" v-model="book.title_book">
                     <label for="author">Автор</label>
@@ -13,10 +14,10 @@
                     <textarea id="annotation" name="annotation" rows="8" placeholder="Краткое содержание" v-model="book.annotation"></textarea>
                 </fieldset>
                 <div class="buttons">
-                    <input value="Добавить" class="btn-1" v-on:click="postDataNewBook()">
-                    <input type="submit" value="Отмена" class="btn-1">
+                    <button class="btn-1" v-on:click="postDataNewBook()">Добавить</button>
+                    <router-link class="btn-1" tag ="a" to="/" >Отмена</router-link> 
                 </div>
-            </form>
+            </div>
         </div>
       </div>
   </div>
@@ -37,21 +38,40 @@ export default {
             currentRoute: router.currentRoute.path
 		}
     },
+    computed: {
+        isBook: function () {
+                if ( this.book.title_book == '' || this.book.author == '' || this.book.annotation == '' ) {
+                   return false
+                } else return true
+        }
+    },
     methods: {  
             postDataNewBook () {
-                axios.post('http://testik.ru/books/new', this.book)
-                .then(response => {
-                    console.log('данные =', response);
-                })
-                .catch(e => {
-                  this.errors.push(e)
-                })   
+                if ( this.isBook ) {
+                    axios.post('http://testik.ru/books/new', this.book)
+                    .then(response => {
+                        console.log('данные =', response);
+                        router.push({ path: '/' })
+                    })
+                    .catch(e => {
+                      this.errors.push(e)
+                    })    
+                } else {
+                    console.log('Пустые поля')
+                }  
             }
     }
 }
 </script>
 
 <style>
+        .wrapper-add {
+      padding: 20px 0;  
+        display: flex;
+        flex-direction:column;
+        justify-content: space-between;
+    }
+    
 	.book-list {
     display: flex;
     flex-direction:column;
@@ -97,5 +117,8 @@ export default {
 		height: auto;
 		resize: none;
 	}
+       .error-add {
+        background-color: bisque;
+    }
 	
 </style>

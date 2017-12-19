@@ -2,7 +2,7 @@
   <div class="content">
       <div class="container">  
         <div class="book-list">
-            <form method="post">
+            <div class="wrapper-add">
                 <fieldset v-for="book in books">
                     <legend>Редактирование книги</legend>
                     <label for="name-book">Название книги</label>
@@ -13,10 +13,10 @@
                     <textarea id="annotation" name="annotation" rows="8" placeholder="Краткое содержание" v-model="book.annotation"></textarea>
                 </fieldset>
                 <div class="buttons">
-                    <input value="Сохранить" class="btn-1" v-on:click="postData()">
-                    <input type="submit" value="Отмена" class="btn-1">
+                    <button class="btn-1" v-on:click="postData()">Сохранить</button>
+                    <router-link class="btn-1" tag ="a" to="/" >Отмена</router-link> 
                 </div>
-            </form>
+            </div>
         </div>
       </div>
   </div>
@@ -65,6 +65,7 @@ export default {
                 axios.post('http://testik.ru' + this.currentRoute, this.postBody)
                 .then(response => {
                     console.log('данные =', response);
+                    router.push({ path: '/' })
                 })
                 .catch(e => {
                   this.errors.push(e)
@@ -75,7 +76,16 @@ export default {
 </script>
 
 <style>
+    .wrapper-add {
+      padding: 20px 0;  
+        display: flex;
+        flex-direction:column;
+        justify-content: space-between;
+    }
     
+    .buttons {
+        margin-top: 20px;
+    }
 	.book-list {
     display: flex;
     flex-direction:column;

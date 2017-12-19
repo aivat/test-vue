@@ -4,16 +4,16 @@
             <div class="head-cont">
                 <div class="header-left">
 					<router-link tag ="a" to="/" v-show="currentRoute === '/'">Книги</router-link>
-					<router-link tag ="a" to="/addbook" v-show="currentRoute === '/addbook'">Добавить книгу</router-link>
+					<router-link tag ="a" to="/books/new" v-show="currentRoute === '/books/new'">Добавить книгу</router-link>
 					<router-link tag ="a" to="/users" v-show="currentRoute === '/users'">Пользователи</router-link>
-					<router-link tag ="a" to="/adduser" v-show="currentRoute === '/adduser'">Добавить пользователя</router-link>
+					<router-link tag ="a" to="/users/new" v-show="currentRoute === '/users/new'">Добавить пользователя</router-link>
                     <router-link tag ="a" v-bind:to="currentRoute" v-show="titlePage == 'editUserTitle'">Редактирование пользователя</router-link>
                     <router-link tag ="a" v-bind:to="currentRoute" v-show="titlePage == 'editBookTitle'">Редактирование книги</router-link>
                     <router-link tag ="a" v-bind:to="currentRoute" v-show="titlePage == 'editAuthorTitle'">Редактирование автора</router-link>
                 </div>
                 <div class="header-right">
-                    <router-link class="btn-1" tag ="a" to="/addbook" v-show="currentRoute === '/'">Добавить книгу</router-link>
-                    <router-link class="btn-1" tag ="a" to="/adduser" v-show="currentRoute === '/users'">Добавить пользователя</router-link>     
+                    <router-link class="btn-1" tag ="a" to="/books/new" v-show="currentRoute === '/'">Добавить книгу</router-link>
+                    <router-link class="btn-1" tag ="a" to="/users/new" v-show="currentRoute === '/users'">Добавить пользователя</router-link>     
                 </div>
             </div>
         </div>
@@ -50,9 +50,6 @@ export default {
             }
             return page;
         }
-    },
-    mounted: function () {  
-        this.$root.$emit('onPageTitle', 'addBook');
     },
 	watch: {
 		'$route' (to, from) {
@@ -103,19 +100,22 @@ export default {
         width: auto;
         height: auto;
         border-radius: 4px;
-        border-color: #ccc;
+        border: 0px solid #ccc;
         padding: 6px 12px;
         transition: 0.2s;
         background: #40A6E3;
         font-weight: 700; 
+        outline: 0;
     }
 
     .btn-1:hover {
-        background: #6FC1F1;    
+        background: #6FC1F1;  
+        border: 0px;
     }
 
     .btn-1:active {
-        background: #4F88AA;  
+        background: #4F88AA; 
+        border: 0px;
     }
     
     
