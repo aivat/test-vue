@@ -16,5 +16,5 @@ export const routes = [
 	{ path: '/users/:idUser', name: 'editUser', component: UserEdit},
 	{ path: '/books/:idBook', name: 'editBook', component: BookEdit},
 	{ path: '/authors/:idAuthor', name: 'editAuthor', component: Author},
-    { path: '/users/:idUser/givebook', name: 'giveBook', component: GiveBook}
+    { path: '/users/:idUser/books', name: 'giveBook', component: GiveBook}
 ]

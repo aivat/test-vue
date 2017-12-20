@@ -7,6 +7,7 @@
 					<router-link tag ="a" to="/books/new" v-show="currentRoute === '/books/new'">Добавить книгу</router-link>
 					<router-link tag ="a" to="/users" v-show="currentRoute === '/users'">Пользователи</router-link>
 					<router-link tag ="a" to="/users/new" v-show="currentRoute === '/users/new'">Добавить пользователя</router-link>
+                    <router-link tag ="a" v-bind:to="currentRoute" v-show="titlePage == 'editUserBook'">Личный кабинет</router-link>
                     <router-link tag ="a" v-bind:to="currentRoute" v-show="titlePage == 'editUserTitle'">Редактирование пользователя</router-link>
                     <router-link tag ="a" v-bind:to="currentRoute" v-show="titlePage == 'editBookTitle'">Редактирование книги</router-link>
                     <router-link tag ="a" v-bind:to="currentRoute" v-show="titlePage == 'editAuthorTitle'">Редактирование автора</router-link>
@@ -32,23 +33,32 @@ export default {
     props: ['type'],
     computed: {
         titlePage: function () {
+
             let page; 
             let regexpUser = /users\/\d{1,}/g;
+            let regexpUserBook = /users\/\d{1,}\/books/g;
             let regexpBook = /books\/\d{1,}/g;
             let regexpAuthor = /authors\/\d{1,}/g;
+
+            if (this.currentRoute.match(regexpUserBook) != null) {
+                    console.log('match=', this.currentRoute.match(regexpUserBook));
+                    return page = 'editUserBook';
+            }
+
             if (this.currentRoute.match(regexpUser) != null) {
-                console.log('match=', this.currentRoute.match(regexpUser));
-                page = 'editUserTitle';
+                    console.log('match=', this.currentRoute.match(regexpUser));
+                    return page = 'editUserTitle';
             }
+
             if (this.currentRoute.match(regexpBook) != null) {
-                console.log('match=', this.currentRoute.match(regexpBook));
-                page = 'editBookTitle';
+                    console.log('match=', this.currentRoute.match(regexpBook));
+                    return page = 'editBookTitle';
             }
+
             if (this.currentRoute.match(regexpAuthor) != null) {
-                console.log('match=', this.currentRoute.match(regexpAuthor));
-                page = 'editAuthorTitle';
+                    console.log('match=', this.currentRoute.match(regexpAuthor));
+                    return page = 'editAuthorTitle';
             }
-            return page;
         }
     },
 	watch: {
