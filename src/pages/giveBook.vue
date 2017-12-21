@@ -14,7 +14,7 @@
 			         <table class="selector-table">
 						<tr>
 							<td class="selector">
-								<input  id="selector-input" type="text" placeholder="Выберите книгу" class="selector-input" oninput="onSearchClinic(this.value)">	
+								<input  id="selector-input" type="text" placeholder="Выберите книгу" class="selector-input" v-model="querySearchBook" @input="getSearchBook()">	
 				            </td>
 				            <td class="selector-dropdown">
                                 &nbsp;
@@ -95,7 +95,9 @@ export default {
             loading: false,
 			users: {},
             error: false,
-            search: false
+            search: false,
+            querySearchBook: '',
+            books: {}
 		}
     },
     computed: {
@@ -118,7 +120,7 @@ export default {
             '$route': 'fetchDataBook'		
     }, 
     methods: {
-			fetchDataUser () {
+			fetchDataUser () { // загружаем фамилию и имя пользователя
 				this.loading = true
 				axios.get('http://testik.ru/users/' + this.getIdUsers)
 					.then(response =>{
@@ -133,7 +135,7 @@ export default {
 							this.loading = false
 					});
 			},
-        	fetchDataBook () {
+        	fetchDataBook () { // загрузка книг пользователя
 				this.loading = true
                 axios.get('http://testik.ru'+this.currentRoute)
                     .then(response =>{
@@ -153,7 +155,7 @@ export default {
 						this.loading = false
                     });
             },
-            postDataDelBook (id) {
+            postDataDelBook (id) { // удаление книги пользователя
                 console.log('данные =', id)
                 axios.delete('http://testik.ru/givebooks/' + id)
                 .then(response => {
@@ -162,7 +164,24 @@ export default {
                     //router.push({ path: '/users' })
                 })
                 .catch(e => {
-                  this.errors.push(e)
+                  //this.errors.push(e)
+                    console.log(e.message)
+                }) 
+            },
+            getSearchBook () {
+                this.error = ''
+                this.books = {};
+                this.loading = true;
+                let params = encodeURIComponent(this.querySearchBook)
+                console.log('params =', params)
+                axios.get('http://testik.ru/books/search?q=' + params)
+                .then(response => {
+                    console.log('поиск =', response)
+                    //router.push({ path: '/users' })
+                })
+                .catch(e => {
+                  //this.errors.push(e)
+                    console.log(e.message)
                 }) 
             }
     }
