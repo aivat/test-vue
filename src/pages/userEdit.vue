@@ -16,7 +16,8 @@
                 </fieldset>
                 <div class="buttons">
                     <button class="btn-1" v-on:click="postData()">Сохранить</button>
-                    <router-link class="btn-1" tag ="a" to="/users" >Отмена</router-link> 
+                    <button class="btn-1" v-on:click="routBack()">Отмена</button>
+<!--                    <router-link class="btn-1" tag ="a" to="/users" >Отмена</router-link> -->
                 </div>
             </div>
         </div>
@@ -69,12 +70,16 @@ export default {
                 axios.post('http://testik.ru' + this.currentRoute, this.postBody)
                 .then(response => {
                     console.log('данные =', response)
-                    router.push({ path: '/users' })
+                    //router.push({ path: '/users' })
+                    router.back()
                 })
                 .catch(e => {
                   this.errors.push(e)
                 })   
-            }
+            },
+            routBack() {
+                router.back();
+        }
     }
 }
 </script>

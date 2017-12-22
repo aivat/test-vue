@@ -14,7 +14,8 @@
                 </fieldset>
                 <div class="buttons">
                     <button class="btn-1" v-on:click="postData()">Сохранить</button>
-                    <router-link class="btn-1" tag ="a" to="/" >Отмена</router-link> 
+<!--                    <router-link class="btn-1" tag ="a" to="/" >Отмена</router-link> -->
+                    <button class="btn-1" v-on:click="routBack()">Отмена</button>
                 </div>
             </div>
         </div>
@@ -66,11 +67,15 @@ export default {
                 .then(response => {
                     console.log('данные =', response);
                     router.push({ path: '/' })
+                    //router.back()
                 })
                 .catch(e => {
                   this.errors.push(e)
                 })   
-            }
+            },
+        routBack() {
+            router.back();
+        }
     }
 }
 </script>

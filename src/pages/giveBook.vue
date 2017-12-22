@@ -23,27 +23,11 @@
 				    </table>
 					<div class="results-container" v-if="search">
 						<div  class="result-list result-list-scrollable">
-							<ul id="result-book">
-                                <li onmousedown="SelectItemMouseDown(-1, 0, this)">
-                                    <p>Анна Каренина</p>
-                                    <p class="result-title-author">Лев Толстой</p>
-                                </li>
-                                <li onmousedown="SelectItemMouseDown(-1, 0, this)">
-                                    <p>Маленький принц</p>
-                                    <p class="result-title-author">Антуан де Сент-Экзюпери</p>
-                                </li>  
-                                <li onmousedown="SelectItemMouseDown(-1, 0, this)">
-                                    <p>Сто лет одиночества</p>
-                                    <p class="result-title-author">Габриэль Гарсиа Маркес</p>
-                                </li>
-                                <li onmousedown="SelectItemMouseDown(-1, 0, this)">
-                                    <p>Над пропастью во ржи</p>
-                                    <p class="result-title-author">Джером Д. Сэлинджер</p>
-                                </li> 
-                                <li onmousedown="SelectItemMouseDown(-1, 0, this)">
-                                    <p>Над пропастью во ржи</p>
-                                    <p class="result-title-author">Эрих Мария Ремарк</p>
-                                </li>                                 
+							<ul id="result-book" v-for="bo in books">
+                                <li @click="SelectItemMouseDown(bo.id)">
+                                    <p>{{ bo.title_book }}</p>
+                                    <p class="result-title-author">{{ bo.author }}</p>
+                                </li>                              
 							 </ul>
 						  </div>
 				        </div>
@@ -55,22 +39,22 @@
             </div>
         </div>  
         <div class="book-list del-margin-book">
-            <div class="list-item list-item-book-delet" v-for="book in userHaveBooks" v-if="userHaveBooks">
+            <div class="list-item list-item-book-delet" v-for="(value, key) in userHaveBooks" v-if="userHaveBooks">
                 <div class="list-item-book">
                     <div class="item-index">
-						{{ book.id }}
+						{{ key + 1}} 
 					</div>
                     <div class="book">
                         <div class="title-book">
-							<router-link tag ="a" v-bind:to="{ name: 'editBook', params: { idBook: book.id }}">{{ book.title_book }}</router-link>             
+							<router-link tag ="a" v-bind:to="{ name: 'editBook', params: { idBook: value.id_book }}">{{ value.title_book }}</router-link>             
                         </div>
                         <div class="author">
-							<router-link tag ="a" v-bind:to="{ name: 'editAuthor', params: { idAuthor: book.id }}">{{ book.author }}</router-link>         
+							<router-link tag ="a" v-bind:to="{ name: 'editAuthor', params: { idAuthor: value.id }}">{{ value.author }}</router-link>         
                         </div>
                     </div>
                 </div>
                 <div class="book-delet">
-                    <button class="btn-2" v-on:click="postDataDelBook(book.id)">Удалить книгу</button>
+                    <button class="btn-2" v-on:click="postDataDelBook(value.id)">Удалить книгу</button>
                 </div>
             </div>
             <div class="list-item-error" v-if="error">
@@ -97,11 +81,16 @@ export default {
             error: false,
             search: false,
             querySearchBook: '',
-            books: {}
+            books: {},
+            postBody: {
+                    user: '',
+                    book: '',
+                    give: '1'
+            }
 		}
     },
     computed: {
-        getIdUsers: function () {
+        getIdUsers: function () { // вычисляем id usera
             let id = this.currentRoute.split('/')
             return id[2]        
         }
@@ -141,7 +130,7 @@ export default {
                     .then(response =>{
                         
 						//this.books = response.data
-						console.log(response)
+						console.log('userHaveBooks=',response.data)
                        	this.userHaveBooks = response.data
                         if (Object.keys(this.userHaveBooks).length == 0) {
                             this.error = true
@@ -169,21 +158,61 @@ export default {
                 }) 
             },
             getSearchBook () {
-                this.error = ''
-                this.books = {};
-                this.loading = true;
-                let params = encodeURIComponent(this.querySearchBook)
-                console.log('params =', params)
-                axios.get('http://testik.ru/books/search?q=' + params)
-                .then(response => {
-                    console.log('поиск =', response)
-                    //router.push({ path: '/users' })
-                })
-                .catch(e => {
-                  //this.errors.push(e)
-                    console.log(e.message)
-                }) 
+                //this.error = ''
+                //this.books = {};
+                this.loading = true
+                if (Object.keys(this.querySearchBook).length >= 1) {
+                        let params = encodeURIComponent(this.querySearchBook)
+                        console.log('params =', params)
+                        axios.get('http://testik.ru/books/search?q=' + params)
+                        .then(response => {
+                            console.log('поиск =', response)
+                            this.books = response.data
+                            if (Object.keys(this.books).length == 0) {
+                                    //this.error = true
+                                    this.search = false
+                                } else { 
+                                    //this.error = false
+                                    this.search = true
+                                    console.log(this.books)
+                                }
+                            //router.push({ path: '/users' })
+                        })
+                        .catch(e => {
+                          //this.errors.push(e)
+                            console.log(e.message)
+                        })
+                } else {
+                    this.search = false
+                    this.books = {}
+                }
+            },
+        SelectItemMouseDown(idBook) {
+            this.postBody.user = ''
+            this.postBody.book = ''
+            var unicumBook = true;
+            this.userHaveBooks.filter(number => {
+                if (number.id_book == idBook) {
+                    unicumBook = false;
+                    console.log('Такая книга уже есть')
+                }
+            })
+        if (unicumBook) {
+                        this.postBody.user = this.getIdUsers
+                        this.postBody.book = idBook
+                        console.log('this.postBody.user=', this.postBody.user)
+                        console.log('this.postBody.book=', this.postBody.book)
+                        console.log('this.postBody=', this.postBody)
+                        axios.post('http://testik.ru/givebooks/new', this.postBody)
+                        .then(response => {
+                            console.log('данные =', response)
+                            this.fetchDataBook ()
+                        })
+                        .catch(e => {
+                          console.log(e.message)
+                        })
             }
+        }
     }
 }
 </script>
@@ -211,10 +240,12 @@ export default {
         margin-top: 15px;
         padding: 0;
         border: 1px solid #c9d0d6; 
-        border-top: none; 
+/*        border-top: none; */
 /*        border-bottom: none;  */
     }
-    
+    .book-list {
+        border-top: none; 
+    }
     .del-bottom {
         border-bottom: none;
         margin-bottom: 0;

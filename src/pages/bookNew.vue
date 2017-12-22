@@ -54,7 +54,7 @@ export default {
                         router.push({ path: '/' })
                     })
                     .catch(e => {
-                      this.errors.push(e)
+                      console.log(e.message)
                     })    
                 } else {
                     console.log('Пустые поля')
